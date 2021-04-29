@@ -1,6 +1,7 @@
 defmodule FileReaderTest do
   use ExUnit.Case
   import PluralsightTweet.FileReader
+  import Mock
 
   test "Passing a file should return a string" do
     str = get_strings_to_tweet(Path.join("#{:code.priv_dir(:pluralsight_tweet)}", "sample.txt"))
@@ -14,9 +15,20 @@ defmodule FileReaderTest do
     assert str == "short line"
   end
 
+  @tag watching: true
   test "An empty strin should return an empty string" do
-    str = pick_string("")
+    with_mock File, [read!: fn(_) -> "" end] do
+      str = get_strings_to_tweet("random file.txt")
+      assert str == ""
+    end
+  end
 
-    assert str == ""
+  @tag watching: true
+  test "The string should be trimmed" do
+    with_mock File, [read!: fn(_) -> " ABC " end] do
+      str = get_strings_to_tweet("doesn't exist.txt")
+
+      assert str == "ABC"
+    end
   end
 end

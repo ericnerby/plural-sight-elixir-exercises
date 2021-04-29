@@ -25,7 +25,9 @@ defmodule PluralsightTweet.MixProject do
       {:credo, "~> 1.5"},
       {:quantum, "~> 3.3"},
       {:extwitter, "~> 0.12.2"},
-      {:oauther, "~> 1.1"}
+      {:oauther, "~> 1.1"},
+      {:mock, "~> 0.3.6"},
+      {:mix_test_watch, "~> 1.0"}
     ]
   end
 end
